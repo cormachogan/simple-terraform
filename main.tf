@@ -1,7 +1,7 @@
 provider "vsphere" {
   user                 = "cloudadmin@vmc.local"
   password             = ""
-  vsphere_server       = ""
+  vsphere_server       = "vcenter.sddc-A-B-C-D.vmwarevmc.com"
   allow_unverified_ssl = true
 }
 
