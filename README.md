@@ -114,81 +114,8 @@ https://github.com/gchek/VMworld2020
 Finally: if you think that there is a provider missing for the product of your choice, let us know. 
 Creating a provider is for advanced users as it required knowledge of the Go programming language but you know what? There are many Go programmers within VMware that can help you.
 
-### Part 5 - APIs
-
-PowerCLI and Terraform are very easy to use as you can see. But what PowerCLI and Terraform only do is making API calls under the hood.
-
-You will find easier to understand automation by building some understanding of API architectures.
-
-An API is an Application Programming Interface. Typically, a developer would create an API on an application or platform to enable a client to interact with it.
-
-Most of the API requests follow the REST model on how communications with an API are executed (REST stands for Representation State Transfer).
-
-Most common REST implementations use HTTP as the application protocol. 
-
-Typically, API calls run a CRUD Action: Create, Read, Update or Delete.
-
-For example:
-- Create a VM
-- Check the items of a content library
-- Update the vSAN storage policy on a VM
-- Remove a NSX network
-
-Typically REST API requests are made through a HTTP verb, which would be:
-
-- PUT   ===== CREATE
-- GET   ===== READ
-- PATCH  ==== UPDATE
-- DELETE ==== DELETE
-
-When you browse any page on the web, you just make a HTTP GET request to get the contents of a webpage.
-
-It's the same if you want to get the contents of a vCenter, it will just be a GET call.
-
-When you submit a form online, you just make a HTTP POST request to submit your details.
-
-It's same when you want to create a network with NSX over the APIs: you just make a HTTP POST call, with the details about your network (subnet, mask, DHCP settings) in the body of the packet.
-
-To leverage vSphere APIs, let's use cURL. Curl is a tool to make HTTP requests and will let us interact with the APIs directly.
-
-Go back to your virtual desktop and open up the terminal.
-
-The way it works with the vSphere APIs is that you need to get a temporary token in exchange for your vCenter credentials with a 
-
-`POST https://{api_host}/rest/com/vmware/cis/session`
-
-For example, on a Mac:
-
-`curl -k -i -u $TF_VAR_vsphere_user:$TF_VAR_vsphere_password -X POST -c token.txt https://$TF_VAR_vsphere_server/rest/com/vmware/cis/session`
-
-On a Windows machine, it would be:
-
-`curl -k -i -u %TF_VAR_vsphere_user%:%TF_VAR_vsphere_password% -X POST -c token.txt https://%TF_VAR_vsphere_server%/rest/com/vmware/cis/session`
-
-The output of the command would be something like this:
-
-    {"value":"f3be0a4e-7fc8-48d8-b796-eb3c2f66970b"}
-
-This temporary token above `f3be0a4e-7fc8-48d8-b796-eb3c2f66970b` can be used in subsequent API requests to authenticate against vCenter.
-
-You can then use the value of the token to make an API call, for example, to get the list of folders in your environment (that will include the folders you created earlier):
-
-On a Mac:
-
-`curl -k -i -b token.txt https://$TF_VAR_vsphere_server/rest/vcenter/folder`
-
-On a Windows machine:
-
-`curl -k -i -b token.txt https://%TF_VAR_vsphere_server%/rest/vcenter/folder`
-
-
 ### Additional Resources
-
-PowerCLI resources can be found [here](https://developer.vmware.com/powercli).
 
 Official Terraform providers can be found [here](https://registry.terraform.io/namespaces/vmware).
 
 Additional Terraform scripts and examples can be found on Nico's blog [here](https://nicovibert.com).
-
-The Curl script used above was found [here](https://www.stevetrefethen.com/accessing-vmware-vcenter-rest-api-authentication-from-curl/).
-
