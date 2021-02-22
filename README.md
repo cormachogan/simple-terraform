@@ -50,33 +50,29 @@ Let's go and practice some of this.
 
 ## Lab Time
 
-Go to the Terraform folder.
+Open Visual Studio Code and open a terminal.
 
-You will see a file called main.tf . This is the main Terraform configuration.
+Clone the repo:
 
-```hcl
-provider "vsphere" {
-user                 = var.vsphere_user
-password             = var.vsphere_password
-vsphere_server       = var.vsphere_server
-allow_unverified_ssl = true
-}
+`git clone https://github.com/nvibert/terraform-hacknite-lab1.git`
 
-data "vsphere_datacenter" "dc" {
-name = "SDDC-Datacenter"
-}
-variable "vsphere_user" {}
-variable "vsphere_password" {}
-variable "vsphere_server" {}
+Switch to the directory:
 
-resource "vsphere_folder" "folder" {
-path          = "your_user_name_terraform_folder"
-type          = "vm"
-datacenter_id = data.vsphere_datacenter.dc.id
-}
-```
+`cd .\terraform-hacknite-lab1`
 
-Update the file with your user_name. The configuration above will create a folder.
+Run the following command:
+
+`code .`
+
+This will open a new VSCode window. You will see a file called main.tf . This is the main Terraform configuration.
+
+Update the file with:
+
+- The vCenter password
+- The vCenter IP address
+- Your user_name
+
+The configuration above will create a folder.
 
 Run the following commands:
 
@@ -84,7 +80,6 @@ Run the following commands:
 `terraform validate` to validate the syntax of your Terraform config file  
 `terraform plan` to work out which resources Terraform will create, modify or delete on your behalf  
 `terraform apply` to execute the plan.  
-
 
 This is a very simple example. But imagine you add not just folders, but resources pools, clusters, tags, networks and security rules (using Terraform for NSX-T); you could define your entire VMware infrastructure as code. 
 
