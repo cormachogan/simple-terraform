@@ -48,7 +48,7 @@ name = "SDDC-Datacenter"
 
 Let's go and practice some of this. 
 
-## LAB Time! ##
+## Lab Time
 
 Go to the Terraform folder.
 
