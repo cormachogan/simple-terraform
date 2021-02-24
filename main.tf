@@ -1,17 +1,17 @@
 provider "vsphere" {
-  user                 = "cloudadmin@vmc.local"
-  password             = ""
-  vsphere_server       = "vcenter.sddc-A-B-C-D.vmwarevmc.com"
+  user                 = "administrator@vsphere.local"
+  password             = "VMware123!"
+  vsphere_server       = "v10.27.51.106"
   allow_unverified_ssl = true
 }
 
 data "vsphere_datacenter" "dc" {
-  name = "SDDC-Datacenter"
+  name = "OCTO-Datacenter"
 }
 
 
 resource "vsphere_folder" "folder" {
-  path          = "your_user_name_terraform_folder"
+  path          = "terraform_folder"
   type          = "vm"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
