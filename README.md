@@ -1,53 +1,5 @@
 # Terraform Hacknite - Lab1
 
-## Introduction for the vSphere user
-
-Terraform builds infrastructure based on code. For example, the following code would create a vSphere Tag Category.
-
-```hcl
-resource "vsphere_tag_category" "region" {
-    name        = "region"
-    cardinality = "SINGLE"
-
-    associable_types = [
-    "VirtualMachine"
-    ]
-}
-```
-
-To create a tag using the category above, you would use the following command:
-
-```hcl
-resource "vsphere_tag" "region" {
-    name         = "UK"
-    category_id = vsphere_tag_category.region.id
-}
-```
-
-You can see how, by using `vsphere_tag_category.region.id`, we are referring to another resource created by Terraform.
-
-One of the advantages about using Terraform is that it is able, in most cases, to work out dependencies between each resources. For example, in this instance, Terraform would create the Tag Category before creating the Tag.
-
-If you want to deploy a resource in something that was not created by Terraform, you can use the data block.
-
-Imagine you want to create a Folder in the Datacenter "SDDC-Datacenter". You would do the following.
-
-```hcl
-resource "vsphere_folder" "folder" {
-path          = "terraform-test-folder"
-type          = "vm"
-datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-data "vsphere_datacenter" "dc" {
-name = "SDDC-Datacenter" 
-}
-```
-
-"Data" is simple a read-only API call to work out the ID of the DC in which we will deploy the folder.
-
-Let's go and practice some of this. 
-
 ## Lab Time
 
 Open Visual Studio Code and open a terminal.
@@ -83,7 +35,9 @@ Run the following commands:
 
 This is a very simple example. But imagine you add not just folders, but resources pools, clusters, tags, networks and security rules (using Terraform for NSX-T); you could define your entire VMware infrastructure as code. 
 
-If you're enjoying Terraform and want to do something a bit more sophisticated, you could try to create vSphere tags and categories. Add this to your main.tf, run `terraform apply` and you will see that Terraform doesn't try to add another folder. Instead, it will just create the tag category and the tag.
+If you're enjoying Terraform and want to do something a bit more sophisticated, you could try to create vSphere tags and categories.  
+
+Add this to your main.tf, run `terraform apply` and you will see that Terraform doesn't try to add another folder. Instead, it will just create the tag category and the tag.
 
 ```hcl
 resource "vsphere_tag_category" "user" {
