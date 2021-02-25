@@ -1,7 +1,7 @@
 provider "vsphere" {
   user                 = "administrator@vsphere.local"
-  password             = "VMware123!"
-  vsphere_server       = "v10.27.51.106"
+  password             = "******"
+  vsphere_server       = "192.168.0.1"
   allow_unverified_ssl = true
 }
 
@@ -14,4 +14,17 @@ resource "vsphere_folder" "folder" {
   path          = "terraform_folder"
   type          = "vm"
   datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+resource "vsphere_tag_category" "user" {
+    name        = "cormac"
+    cardinality = "SINGLE"
+
+    associable_types = [
+        "VirtualMachine"
+    ]
+}
+resource "vsphere_tag" "last_name" {
+    name         = "hogan"
+    category_id = vsphere_tag_category.user.id
 }
